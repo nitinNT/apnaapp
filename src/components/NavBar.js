@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 
 function NavBar() {
     return (
-        <Navbar bg="primary" variant="dark">
+        <Navbar bg="primary" variant="dark" fixed="top">
         <Nav className="container-fluid">
           <Nav.Item>
             <Navbar.Brand>DH App</Navbar.Brand>

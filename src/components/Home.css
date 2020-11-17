@@ -7,8 +7,8 @@
     flex-direction: row;
     justify-content: space-between;
 }
-
 .posts{
-  min-width: fit-content;
-  overflow-y: scroll;
+    
+    min-width: fit-content;
+    overflow-y: scroll;
 }

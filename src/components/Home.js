@@ -8,7 +8,7 @@ import NavBar from './NavBar'
 function Home() {
     return (
         <div>
-            <NavBar/>            
+            <NavBar />            
             <AddNewPost/>
         </div>
     )

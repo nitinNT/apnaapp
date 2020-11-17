@@ -8,6 +8,7 @@ import "./Home.css";
 import db from "../firebase";
 import Modal from "react-bootstrap/Modal";
 import PostCard from "./PostCard";
+import { CardGroup, Col, Row } from "react-bootstrap";
 function AddNewPost() {
     const [title,setTitle]= useState("");
     const [desc,setDesc] = useState("");
@@ -48,13 +49,49 @@ function AddNewPost() {
           size={45}
         />
       </div>
-      <div className="posts">
+      <div>
         <PostCard
           title="nitin"
           desc="desc"
           timestamp={new Date().toLocaleDateString()}
           image=""
         />
+        <PostCard
+          title="nitin"
+          desc="desc"
+          timestamp={new Date().toLocaleDateString()}
+          image=""
+        />
+        <PostCard
+          title="nitin"
+          desc="desc"
+          timestamp={new Date().toLocaleDateString()}
+          image=""
+        />
+        <PostCard
+          title="nitin"
+          desc="desc"
+          timestamp={new Date().toLocaleDateString()}
+          image=""
+        />
+        <PostCard
+          title="nitin"
+          desc="desc"
+          timestamp={new Date().toLocaleDateString()}
+          image=""
+        />
+        <PostCard
+          title="nitin"
+          desc="desc"
+          timestamp={new Date().toLocaleDateString()}
+          image=""
+        /><PostCard
+        title="nitin"
+        desc="desc"
+        timestamp={new Date().toLocaleDateString()}
+        image=""
+      />
+        
       </div>
       
       <Modal show={show} onHide={handleClose}>
