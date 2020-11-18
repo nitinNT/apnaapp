@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusCircleFill } from "react-bootstrap-icons";
 
 import Button from "react-bootstrap/Button";
@@ -8,26 +8,30 @@ import "./Home.css";
 import db from "../firebase";
 import Modal from "react-bootstrap/Modal";
 import PostCard from "./PostCard";
-import { CardGroup, Col, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 function AddNewPost() {
     const [title,setTitle]= useState("");
     const [desc,setDesc] = useState("");
     const [tags,setTags]= useState("");
     const [image,setImage]=useState(null);
 
+    const [posts,setPosts] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
+
+    useEffect(()=>{
+      db.collection('posts').onSnapshot((snapshot)=>
+        setPosts(snapshot.docs.map((doc)=>doc.data()))
+      ); 
+    },[])
     const handleShow = () => {
       setShow(true);
     }
-    const handleSave=()=>{
-
-        
+    const handleSave=()=>{        
         db.collection('posts').add({
           username:"nitin",
           title:title,
           desc:desc,
-          comments:[],
           timestamp: new Date().toDateString()
         })
 
@@ -49,50 +53,23 @@ function AddNewPost() {
           size={45}
         />
       </div>
-      <div>
-        <PostCard
-          title="nitin"
-          desc="desc"
-          timestamp={new Date().toLocaleDateString()}
-          image=""
-        />
-        <PostCard
-          title="nitin"
-          desc="desc"
-          timestamp={new Date().toLocaleDateString()}
-          image=""
-        />
-        <PostCard
-          title="nitin"
-          desc="desc"
-          timestamp={new Date().toLocaleDateString()}
-          image=""
-        />
-        <PostCard
-          title="nitin"
-          desc="desc"
-          timestamp={new Date().toLocaleDateString()}
-          image=""
-        />
-        <PostCard
-          title="nitin"
-          desc="desc"
-          timestamp={new Date().toLocaleDateString()}
-          image=""
-        />
-        <PostCard
-          title="nitin"
-          desc="desc"
-          timestamp={new Date().toLocaleDateString()}
-          image=""
-        /><PostCard
-        title="nitin"
-        desc="desc"
-        timestamp={new Date().toLocaleDateString()}
-        image=""
-      />
+      <Container>
+      {
+          // console.log(posts)
+          posts.map(post=>{
+            return <Row xs={1} md={7}> 
+            <PostCard
+            title={post.title}
+            image=""
+            desc={post.desc}
+            timestamp={post.timestamp}/>
+            </Row>
+            
+          })
+        }
+      
+      </Container>
         
-      </div>
       
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -105,6 +82,7 @@ function AddNewPost() {
                 value={title}
                 onChange={e=>setTitle(e.target.value)}
             />
+
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Description</Form.Label>

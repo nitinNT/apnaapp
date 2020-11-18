@@ -14,7 +14,7 @@ function PostCard({title,desc,image,timestamp}) {
           </Card.Text>
         </Card.Body>
         <Card.Footer>
-          <small className="text-center">{timestamp}</small>
+          <small className="text-center" style={{float:"right"}} >{timestamp}</small>
         </Card.Footer>
       </Card>
 

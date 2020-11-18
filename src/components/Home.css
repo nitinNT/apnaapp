@@ -1,14 +1,9 @@
 .plus_button{
-    margin-top: auto;
     float:right;
 }
 .headings{
+    margin-top: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-.posts{
-    
-    min-width: fit-content;
-    overflow-y: scroll;
 }
