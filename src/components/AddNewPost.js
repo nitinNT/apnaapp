@@ -9,6 +9,7 @@ import db from "../firebase";
 import Modal from "react-bootstrap/Modal";
 import PostCard from "./PostCard";
 import { Container, Row } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
 function AddNewPost() {
     const [title,setTitle]= useState("");
     const [desc,setDesc] = useState("");
@@ -17,11 +18,15 @@ function AddNewPost() {
 
     const [posts,setPosts] = useState([]);
     const [show, setShow] = useState(false);
+
+
+    const { user } = useAuth();
+
     const handleClose = () => setShow(false);
 
     useEffect(()=>{
       db.collection('posts').onSnapshot((snapshot)=>
-        setPosts(snapshot.docs.map((doc)=>doc.data()))
+        setPosts(snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()})))
       ); 
     },[])
     const handleShow = () => {
@@ -29,10 +34,11 @@ function AddNewPost() {
     }
     const handleSave=()=>{        
         db.collection('posts').add({
-          username:"nitin",
+          user:user.email,
           title:title,
           desc:desc,
-          timestamp: new Date().toDateString()
+          timestamp: new Date().toDateString(),
+          solved:'N'
         })
 
 
@@ -54,11 +60,15 @@ function AddNewPost() {
         />
       </div>
       <Container>
+        {console.log(posts)}
       {
-          // console.log(posts)
+          
           posts.map(post=>{
             return <Row xs={1} md={7}> 
             <PostCard
+            key={post.id}
+            postId={post.id}
+            user={post.user}
             title={post.title}
             image=""
             desc={post.desc}

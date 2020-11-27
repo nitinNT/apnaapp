@@ -7,3 +7,7 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.comments{
+    margin-top: 2%;
+}

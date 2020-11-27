@@ -2,14 +2,17 @@ import React,{useState} from 'react'
 import { Col} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import auth from "../firebase"
+import { useHistory } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './SignIn.css';
 
 function SignUp() {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword]= useState("");
+  const {signup} = useAuth();
   const signUp = ()=>{
-    auth.createUserWithEmailAndPassword(email, password).catch(error=>{
+    signup(email, password).catch(error=>{
     var errorCode = error.code;
     var errorMessage = error.message;
     if (errorCode === 'auth/weak-password') {
@@ -17,7 +20,10 @@ function SignUp() {
       } else {
       alert(errorMessage);
     }
-  console.log(error);
+    console.log(error);
+    
+  }).then(()=>{
+    history.push("/");
   })
   
   }

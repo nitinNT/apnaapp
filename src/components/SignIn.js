@@ -2,31 +2,32 @@ import React,{useState} from "react";
 import { Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import {auth} from "../firebase";
+import { useHistory } from "react-router-dom";
+
+import {useAuth} from '../contexts/AuthContext';
 import "./SignIn.css";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword]= useState("");
-  const signIn = ()=>{
-    auth.signInWithEmailAndPassword(email,password)
-    .catch(error=>{
-      var errorCode = error.code;
+  const { signin } = useAuth();
+  const { resetPassword } = useAuth();
+
+  const history = useHistory();
+  const submitSignIn = (e)=>{
+    e.preventDefault();
+    signin(email,password).catch((error)=>{
       var errorMessage = error.message;
-      if (errorCode === 'auth/wrong-password') {
-        alert('Wrong password.');
-      } else {
-        alert(errorMessage);
-      }
-      console.log(error);
-    })
-    .then(data=>{
-      console.log(data)
+      alert(errorMessage);
+
+    }).then(()=>{
+      alert('SUCCESS')
+      history.push("/home")
     })
     
   }
   const forgotPassword= ()=>{
-    auth.sendPasswordResetEmail(email).then(()=>{
+    resetPassword(email).then(()=>{
       alert("Password Reset Email Sent")
     })
     .catch(error=>{
@@ -65,7 +66,7 @@ function SignIn() {
           <Button as={Col} variant="danger" onClick={forgotPassword}>
             Forgot Password  
           </Button>  
-          <Button as={Col} variant="primary" onClick={signIn}>
+          <Button as={Col} variant="primary" onClick={(e) =>submitSignIn(e)}>
             Login
           </Button>
         </Form.Row>
