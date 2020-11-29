@@ -5,11 +5,16 @@ import SignUp from './components/SignUp';
 import Home from './components/Home';
 import AuthProvider from './contexts/AuthContext';
 import ViewPost from './components/ViewPost';
+import { ToastProvider} from 'react-toast-notifications'
+
+
+
 
 
 function App() {
   return (
-    <AuthProvider>
+    <ToastProvider>
+      <AuthProvider>
       <BrowserRouter>
       <Route exact path="/">
         <SignIn/>
@@ -23,6 +28,8 @@ function App() {
       <Route path="/posts" component={ViewPost}/>
     </BrowserRouter>
     </AuthProvider>
+    
+    </ToastProvider>
     
 
   );

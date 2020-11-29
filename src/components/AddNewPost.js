@@ -1,52 +1,71 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PlusCircleFill } from "react-bootstrap-icons";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./Home.css";
 
-import db from "../firebase";
+import db, { storage } from "../firebase";
 import Modal from "react-bootstrap/Modal";
-import PostCard from "./PostCard";
-import { Container, Row } from "react-bootstrap";
+
 import { useAuth } from "../contexts/AuthContext";
+import Posts from "./Posts";
+import { useToasts } from "react-toast-notifications";
+
+
+
 function AddNewPost() {
     const [title,setTitle]= useState("");
     const [desc,setDesc] = useState("");
     const [tags,setTags]= useState("");
     const [image,setImage]=useState(null);
 
-    const [posts,setPosts] = useState([]);
-    const [show, setShow] = useState(false);
+    const {addToast} = useToasts();
 
+    const [show, setShow] = useState(false);
 
     const { user } = useAuth();
 
     const handleClose = () => setShow(false);
 
-    useEffect(()=>{
-      db.collection('posts').onSnapshot((snapshot)=>
-        setPosts(snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()})))
-      ); 
-    },[])
+
     const handleShow = () => {
       setShow(true);
     }
     const handleSave=()=>{        
-        db.collection('posts').add({
-          user:user.email,
-          title:title,
-          desc:desc,
-          timestamp: new Date().toDateString(),
-          solved:'N'
-        })
-
+        const uploadTask=storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+            "state_changed",
+            snapshot=>{},
+            error=>{
+                console.log(error)
+            },
+            ()=>{
+                storage
+                .ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then(url=>{
+                  db.collection('posts').add({
+                    user:user.email,
+                    title:title,
+                    desc:desc,
+                    image:url,
+                    timestamp: new Date(),
+                    localtimestamp:new Date().toLocaleString(),
+                    solved:'N',
+                    tags:tags
+                  })
+                })
+            }
+        )
 
         setShow(false);
         setTags("");
         setTitle("");
         setImage(null);
         setDesc("");
+        addToast('Added New Issue',{appearance:'success',autoDismiss:true})
     }
     
   return (
@@ -59,27 +78,7 @@ function AddNewPost() {
           size={45}
         />
       </div>
-      <Container>
-        {console.log(posts)}
-      {
-          
-          posts.map(post=>{
-            return <Row xs={1} md={7}> 
-            <PostCard
-            key={post.id}
-            postId={post.id}
-            user={post.user}
-            title={post.title}
-            image=""
-            desc={post.desc}
-            timestamp={post.timestamp}/>
-            </Row>
-            
-          })
-        }
-      
-      </Container>
-        
+      <Posts/>  
       
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -116,7 +115,9 @@ function AddNewPost() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+
+
+      </div>
   );
 }
 

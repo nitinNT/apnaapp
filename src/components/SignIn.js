@@ -2,10 +2,12 @@ import React,{useState} from "react";
 import { Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 
 import {useAuth} from '../contexts/AuthContext';
 import "./SignIn.css";
+
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -14,33 +16,26 @@ function SignIn() {
   const { resetPassword } = useAuth();
 
   const history = useHistory();
-  const submitSignIn = (e)=>{
+  const {addToast} = useToasts();
+  const submitSignIn = async (e)=>{
     e.preventDefault();
-    signin(email,password).catch((error)=>{
-      var errorMessage = error.message;
-      alert(errorMessage);
-
-    }).then(()=>{
-      alert('SUCCESS')
+    try{
+      await signin(email,password)
+      addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
       history.push("/home")
-    })
-    
+    }
+    catch{
+      addToast('Wrong Credentials ',{appearance:'error',autoDismiss:true})
+    }
   }
-  const forgotPassword= ()=>{
-    resetPassword(email).then(()=>{
-      alert("Password Reset Email Sent")
-    })
-    .catch(error=>{
-      let errorCode = error.code;
-      
-      if (errorCode === 'auth/invalid-email')
-      {
-        alert('Email Address is Not Valid ')
-      }
-      if (errorCode ===  'auth/user-not-found'){
-        alert('User Not Found ')
-      }
-    })
+  const forgotPassword= async()=>{
+    try{
+      await resetPassword(email)
+      addToast('Password Reset Link Sent Successfully ',{appearance:'info',autoDismiss:true})
+    }
+    catch{
+      addToast('Invalid Email ',{appearance:'error',autoDismiss:true})
+    }
   }
   return (
     <div>
@@ -61,7 +56,6 @@ function SignIn() {
           onChange = {e=> setPassword(e.target.value)}
           />
         </Form.Group>
-
         <Form.Row>
           <Button as={Col} variant="danger" onClick={forgotPassword}>
             Forgot Password  
@@ -69,6 +63,9 @@ function SignIn() {
           <Button as={Col} variant="primary" onClick={(e) =>submitSignIn(e)}>
             Login
           </Button>
+        </Form.Row>
+        <Form.Row>
+          <Link to="/register">New User ? </Link>
         </Form.Row>
       </div>
     </div>

@@ -2,7 +2,8 @@ import React,{useState} from 'react'
 import { Col} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 import { useAuth } from '../contexts/AuthContext';
 import './SignIn.css';
 
@@ -11,21 +12,26 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword]= useState("");
   const {signup} = useAuth();
-  const signUp = ()=>{
-    signup(email, password).catch(error=>{
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    if (errorCode === 'auth/weak-password') {
-      alert('The password is too weak.');
-      } else {
-      alert(errorMessage);
+
+  const {addToast} = useToasts();
+  const signUp = async (e)=>{
+    e.preventDefault();
+    try{
+      await signup(email,password)
+      addToast('Successfully Registered',{appearance:'success',autoDismiss:true})
+      history.push("/")
     }
-    console.log(error);
+    catch{
+      addToast('Wrong Details Please Try Again ... ',{appearance:'error',autoDismiss:true})
+
+    }
+  //   signup(email, password).catch((error)=>{
+  //   var errorMessage = error.message;
+  //   alert(errorMessage)
     
-  }).then(()=>{
-    history.push("/");
-  })
-  
+  // }).then(()=>{
+  //   history.push("/");
+  // })
   }
   return (
     <div>
@@ -48,12 +54,12 @@ function SignUp() {
         </Form.Group>
 
         <Form.Row>
-          <Form.Group as={Col} controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Remember me" />
-          </Form.Group>
-          <Button as={Col} variant="primary" onClick={signUp}>
+          <Button as={Col} variant="primary" onClick={(e) => signUp(e)}>
             Register
           </Button>
+        </Form.Row>
+        <Form.Row>
+          <Link to="/" >Already Registered?</Link>          
         </Form.Row>
       </div>
     </div>

@@ -17,7 +17,7 @@ function NavBar({email}) {
       <Navbar bg="primary" variant="dark">
       <Nav className="container-fluid">
         <Nav.Item>
-          <Navbar.Brand>DH App</Navbar.Brand>
+          <Navbar.Brand>ApnaApp</Navbar.Brand>
         </Nav.Item>
         <Nav.Item className="ml-auto">
             <h6>{email}</h6>
