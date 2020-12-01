@@ -1,12 +1,12 @@
 import React from 'react'
 import Tab from 'react-bootstrap/Tab'
 import { Col, Nav, Row } from "react-bootstrap";
-import SignIn from "./SignIn";
 import AddNewPost from './AddNewPost';
 import Search from './Search';
+import JiraBoard from './JiraBoard';
 
 
-function Menu() {
+function Menu({user}) {
     return (
         <div style={{marginTop:'2%'}}>
 <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -19,6 +19,9 @@ function Menu() {
         <Nav.Item>
           <Nav.Link eventKey="second">Search</Nav.Link>
         </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="third">Board</Nav.Link>
+        </Nav.Item>
       </Nav>
     </Col>
     <Col sm={9}>
@@ -28,6 +31,9 @@ function Menu() {
         </Tab.Pane>
         <Tab.Pane eventKey="second">
           <Search/>
+        </Tab.Pane>
+        <Tab.Pane eventKey="third">
+          <JiraBoard/>
         </Tab.Pane>
       </Tab.Content>
     </Col>

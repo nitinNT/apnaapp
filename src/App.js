@@ -8,9 +8,6 @@ import ViewPost from './components/ViewPost';
 import { ToastProvider} from 'react-toast-notifications'
 
 
-
-
-
 function App() {
   return (
     <ToastProvider>
@@ -25,7 +22,7 @@ function App() {
       <Route path="/home">
         <Home/>
       </Route>
-      <Route path="/posts" component={ViewPost}/>
+      <Route path="/post" component={ViewPost}/>
     </BrowserRouter>
     </AuthProvider>
     

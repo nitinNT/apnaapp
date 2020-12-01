@@ -3,6 +3,7 @@ import { Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, useHistory } from "react-router-dom";
+import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 import { useToasts } from "react-toast-notifications";
 
 import {useAuth} from '../contexts/AuthContext';
@@ -13,7 +14,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword]= useState("");
   const { signin } = useAuth();
-  const { resetPassword } = useAuth();
+  const { resetPassword , googleSignIn  ,githubSignIn} = useAuth();
 
   const history = useHistory();
   const {addToast} = useToasts();
@@ -36,6 +37,31 @@ function SignIn() {
     catch{
       addToast('Invalid Email ',{appearance:'error',autoDismiss:true})
     }
+  }
+
+  const handleGoogleLogin=async()=>{
+    try{
+      await googleSignIn();
+      addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
+      history.push("/home")
+    }
+    catch{
+      addToast('Some Error Please Try Again ',{appearance:'error',autoDismiss:true})
+      
+    }
+    
+  }
+  const handleGithubLogin=async()=>{
+    try{
+      await githubSignIn();
+      addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
+      history.push("/home")
+    }
+    catch{
+      addToast('Some Error Please Try Again',{appearance:'error',autoDismiss:true})
+      
+    }
+    
   }
   return (
     <div>
@@ -67,7 +93,10 @@ function SignIn() {
         <Form.Row>
           <Link to="/register">New User ? </Link>
         </Form.Row>
+        <GoogleLoginButton onClick={handleGoogleLogin}/>
+        {/* <GithubLoginButton onClick= {handleGithubLogin} /> */}
       </div>
+      
     </div>
   );
 }

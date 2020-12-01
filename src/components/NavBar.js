@@ -12,8 +12,8 @@ function NavBar({email}) {
     logout();
     history.push("/")
   }
-
   return (
+
       <Navbar bg="primary" variant="dark">
       <Nav className="container-fluid">
         <Nav.Item>

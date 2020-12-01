@@ -5,8 +5,10 @@ function PostCard({postId,title,desc,image,timestamp,user,tags,solved}) {
   const history = useHistory();
   const viewPost=(e)=>{
     e.preventDefault();
+
+    
     history.push({
-      pathname:"/posts",
+      pathname:"/post",
       state:{id:postId}
     })
     

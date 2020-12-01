@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./Home.css";
 
-import db, { storage } from "../firebase";
+import db, { auth, storage } from "../firebase";
 import Modal from "react-bootstrap/Modal";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -30,10 +30,22 @@ function AddNewPost() {
 
 
     const handleShow = () => {
-      setShow(true);
+      if (user.emailVerified===false)
+        {
+          addToast('Please Verify your Email address',{appearance:'warning',autoDismiss:true})
+          auth.currentUser.sendEmailVerification().then(()=>{
+            addToast('Email Verification Link Sent',{appearance:'info',autoDismiss:true})
+          })
+          .catch(err=>console.log(err))
+        }
+        else{
+          setShow(true);
+        }
+      
     }
     const handleSave=()=>{        
         const uploadTask=storage.ref(`images/${image.name}`).put(image);
+
         uploadTask.on(
             "state_changed",
             snapshot=>{},
@@ -55,7 +67,24 @@ function AddNewPost() {
                     localtimestamp:new Date().toLocaleString(),
                     solved:'N',
                     tags:tags
+                  }).then(doc=>{
+                    addToast(`Issue Added Successfully`,{appearance:'success',autoDismiss:true})
+                    let postTags= tags.split(" ");
+                    postTags.map(a=>{
+                      db.collection('tags').doc(a.toString()).collection('posts').add({
+                        postid:doc.id
+                      })
+                      db.collection('tags').doc(a.toString()).set({
+                        tag:a.toString()
+                      })
+                    })
+                    
                   })
+                  .catch(error=>{
+                    addToast('Error in Adding Issue',{appearance:'error',autoDismiss:true})
+                  })
+
+                  
                 })
             }
         )
@@ -65,7 +94,6 @@ function AddNewPost() {
         setTitle("");
         setImage(null);
         setDesc("");
-        addToast('Added New Issue',{appearance:'success',autoDismiss:true})
     }
     
   return (

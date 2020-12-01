@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import NavBar from "./NavBar";
 import Card from "react-bootstrap/Card";
-import db from "../firebase";
+import db, { auth } from "../firebase";
 
 import "../components/Home.css";
 import {  CardDeck, Spinner } from "react-bootstrap";
@@ -11,6 +11,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { CheckCircleFill, HandThumbsUp, XCircleFill  } from "react-bootstrap-icons";
+import { useToasts } from "react-toast-notifications";
 
 
 function ViewPost(props) {
@@ -23,21 +24,46 @@ function ViewPost(props) {
   const [comment,setComment] = useState("");
   const postID = props.location.state.id;
 
+  const {addToast} = useToasts();
   const submitComment=()=>{
-      db.collection("posts").doc(postID.toString()).collection('comments').add({
-          user:user.email,
-          comment:comment,
-          timestamp:new Date(),
-          upvotes:0,
-          ans:'N'
+    if (user.emailVerified===false)
+    {
+      addToast('Please Verify your Email address',{appearance:'warning',autoDismiss:true})
 
+      //need to keep this in auth context to avoid to rewrite again again again 
+      auth.currentUser.sendEmailVerification().then(()=>{
+        addToast('Email Verification Link Sent',{appearance:'info',autoDismiss:true})
       })
+      .catch(err=>console.log(err))
+    }
+    else{
+      db.collection("posts").doc(postID.toString()).collection('comments').add({
+        user:user.email,
+        comment:comment,
+        timestamp:new Date(),
+        upvotes:0,
+        ans:'N'
+
+    })
+    }
       setComment("")
   }
   const setVote =(e,id,initial)=>{
-       db.collection('posts').doc(postID.toString()).collection('comments').doc(id.toString()).update({
-         upvotes:initial+1
-       })
+    if (user.emailVerified===false)
+    {
+      addToast('Please Verify your Email address',{appearance:'warning',autoDismiss:true})
+
+      //need to keep this in auth context to avoid to rewrite again again again 
+      auth.currentUser.sendEmailVerification().then(()=>{
+        addToast('Email Verification Link Sent',{appearance:'info',autoDismiss:true})
+      })
+      .catch(err=>console.log(err))
+    }else{
+      db.collection('posts').doc(postID.toString()).collection('comments').doc(id.toString()).update({
+        upvotes:initial+1
+      })
+    }
+       
   }
   const setAnswer =(e,id)=>{
       console.log(id);
