@@ -94,7 +94,7 @@ function Search() {
                     <Card.Text>
                     {t.label}
                     </Card.Text>
-                    <Button variant="light" onClick={e => viewPost(e,t.value)}></Button>
+                    <Button variant="dark" onClick={e => viewPost(e,t.value)}>View</Button>
                     </Card.Body>
 
                     <Card.Footer>
