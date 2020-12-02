@@ -15,6 +15,38 @@ import { useToasts } from "react-toast-notifications";
 
 
 function AddNewPost() {
+    const createKeyWords = (name)=>{
+      let arr=[]
+
+      let cur='';
+
+      name.split('').forEach((letter)=>{
+        cur+=letter
+        arr.push(cur)
+      })
+      return arr;
+    }
+
+    const  generateKeyWords=(fields)=>{
+      const [tag , desc ,sfx] = fields;
+      
+      const suffix = sfx.length >0 ? `${sfx}.` : '';
+      let arrayTag= tag.split(" ")
+      
+      let arrayDesc= desc.split(" ")
+      
+
+      const keywordtagWithoutDesc = createKeyWords(`${tag}${suffix}`)
+      const keyworddesc= createKeyWords(`${desc}${suffix}`)
+      return [
+        ...new Set([
+          ...keywordtagWithoutDesc,
+          ...keyworddesc,
+          ...arrayTag,
+          ...arrayDesc
+        ])
+      ]
+    }
     const [title,setTitle]= useState("");
     const [desc,setDesc] = useState("");
     const [tags,setTags]= useState("");
@@ -45,7 +77,7 @@ function AddNewPost() {
     }
     const handleSave=()=>{        
         const uploadTask=storage.ref(`images/${image.name}`).put(image);
-
+        let keywords=generateKeyWords([tags,desc,''])
         uploadTask.on(
             "state_changed",
             snapshot=>{},
@@ -66,7 +98,8 @@ function AddNewPost() {
                     timestamp: new Date(),
                     localtimestamp:new Date().toLocaleString(),
                     solved:'N',
-                    tags:tags
+                    tags:tags,
+                    keywords:keywords
                   }).then(doc=>{
                     addToast(`Issue Added Successfully`,{appearance:'success',autoDismiss:true})
                     let postTags= tags.split(" ");
@@ -82,9 +115,7 @@ function AddNewPost() {
                   })
                   .catch(error=>{
                     addToast('Error in Adding Issue',{appearance:'error',autoDismiss:true})
-                  })
-
-                  
+                  })                  
                 })
             }
         )
@@ -119,7 +150,6 @@ function AddNewPost() {
                 value={title}
                 onChange={e=>setTitle(e.target.value)}
             />
-
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Description</Form.Label>
@@ -143,8 +173,6 @@ function AddNewPost() {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
       </div>
   );
 }

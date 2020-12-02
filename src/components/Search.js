@@ -8,6 +8,8 @@ import { CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
 
 
 function Search() {
+    const fireSQL = new FireSQL(db);
+
     const [tag,setTag] =useState([])
     const history= useHistory();
     const handleOnChange=(tags)=>{
@@ -15,22 +17,20 @@ function Search() {
     }
 
     const viewPost=(e,id)=>{
-        e.preventDefault();       
+        e.preventDefault();  
         history.push({
           pathname:"/post",
           state:{id:id}
         })
         
-      }
+    }
       
     const [loading, setLoading ] = useState(true)
     const loadOptions = async (inputValue)=>{
         inputValue = inputValue.toLowerCase().replace(/\W/g, "");
         return new Promise((resolve => {
             db.collection('posts')
-                    .orderBy('desc')
-                    .startAt(inputValue)
-                    .endAt(inputValue + "\uf8ff")
+                    .where('keywords','array-contains',inputValue)
                     .get()
                     .then(docs => {
                         if (!docs.empty) {
