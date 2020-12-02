@@ -99,7 +99,7 @@ function Search() {
                 </Button>:<span>Loading</span>}
                 </Col>
             </Row>             */}
-            <h6>Anything Search using its Tags or by its Description</h6>
+            <h6>Search Functionality Will Come Stay Soon</h6>
 
             <AsyncSelect
                     loadOptions={loadOptions}
@@ -120,7 +120,7 @@ function Search() {
                     <Card.Text>
                     {t.label}
                     </Card.Text>
-                    <Button variant="light" onClick={e => viewPost(e,t.value)}>View</Button>
+                    <Button variant="light" onClick={e => viewPost(e,t.value)}></Button>
                     </Card.Body>
 
                     <Card.Footer>

@@ -4,7 +4,7 @@ import { Spinner } from 'react-bootstrap'
 function JiraBoard() {
     return (
         <div>
-            <h2>Board Will functionality will come stay soon</h2>
+            <h2>Board Will functionality will come </h2>
             <h6>
                 Track your Project's Work here by just one click to board from leftside 
             </h6>
