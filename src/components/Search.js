@@ -8,12 +8,11 @@ import { CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
 
 
 function Search() {
-    const fireSQL = new FireSQL(db);
 
     const [tag,setTag] =useState([])
     const history= useHistory();
     const handleOnChange=(tags)=>{
-        setTag([tags])
+        setTag([tags])          
     }
 
     const viewPost=(e,id)=>{
@@ -22,12 +21,11 @@ function Search() {
           pathname:"/post",
           state:{id:id}
         })
-        
+
     }
-      
     const [loading, setLoading ] = useState(true)
     const loadOptions = async (inputValue)=>{
-        inputValue = inputValue.toLowerCase().replace(/\W/g, "");
+        inputValue = inputValue.replace(/\W/g, "");
         return new Promise((resolve => {
             db.collection('posts')
                     .where('keywords','array-contains',inputValue)
@@ -48,30 +46,7 @@ function Search() {
                             setLoading(false);
                             return resolve(recommendedTags)
                         } else {
-                            db.collection('posts')
-                    .orderBy('tags')
-                    .startAt(inputValue)
-                    .endAt(inputValue + "\uf8ff")
-                    .get()
-                    .then(docs => {
-                        if (!docs.empty) {
-                            let recommendedTags = []
-                            docs.forEach(function (doc) {
-                                const tag = {
-                                    value: doc.id,
-                                    label: doc.data().desc,
-                                    title:doc.data().title,
-                                    solved:doc.data().solved,
-                                    timestamp:doc.data().localtimestamp
-                                }
-                                recommendedTags.push(tag)
-                            });
-                            setLoading(false);
-                            return resolve(recommendedTags)
-                        } else {
-                            return resolve([])                       
-                        }
-                    })
+                            return resolve([])
                         }
                     })
         
@@ -99,8 +74,7 @@ function Search() {
                 </Button>:<span>Loading</span>}
                 </Col>
             </Row>             */}
-            <h6>Search Functionality Will Come Stay Soon</h6>
-
+            <h6>Search using tag or by its description  </h6>
             <AsyncSelect
                     loadOptions={loadOptions}
                     onChange={handleOnChange}         

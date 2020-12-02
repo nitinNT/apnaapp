@@ -31,11 +31,11 @@ function AddNewPost() {
       const [tag , desc ,sfx] = fields;
       
       const suffix = sfx.length >0 ? `${sfx}.` : '';
+
+      //in future will think on its 
       let arrayTag= tag.split(" ")
       
       let arrayDesc= desc.split(" ")
-      
-
       const keywordtagWithoutDesc = createKeyWords(`${tag}${suffix}`)
       const keyworddesc= createKeyWords(`${desc}${suffix}`)
       return [
