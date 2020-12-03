@@ -8,7 +8,6 @@ import { CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
 
 
 function Search() {
-
     const [tag,setTag] =useState([])
     const history= useHistory();
     const handleOnChange=(tags)=>{

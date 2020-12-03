@@ -21,7 +21,7 @@ function Posts() {
             <Spinner animation="grow" variant="dark" />
           </div>
           :
- <Container>
+    <Container>
       {
           
           posts.map((post,i)=>(

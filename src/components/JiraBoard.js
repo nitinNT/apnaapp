@@ -1,13 +1,13 @@
 import React from 'react'
 import { Spinner } from 'react-bootstrap'
+import AddNewPost from './AddNewPost'
+import AddNewTeam from './AddNewTeam'
 
 function JiraBoard() {
     return (
         <div>
-            <h2>Board Will functionality will come </h2>
-            <h6>
-                Track your Project's Work here by just one click to board from leftside 
-            </h6>
+            <AddNewTeam/>
+            
   <Spinner animation="border" variant="primary" />
   <Spinner animation="border" variant="secondary" />
   <Spinner animation="border" variant="success" />
