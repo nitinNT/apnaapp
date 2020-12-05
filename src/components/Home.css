@@ -19,3 +19,11 @@
     margin-top: -50px;
     margin-left: -100px;
 }
+
+.d-flex div{
+    padding: 0rem;
+    background-color: #33b5e5;
+    border: 2px solid #fff;
+    color: #fff;
+
+  }

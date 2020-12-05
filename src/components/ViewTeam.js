@@ -1,17 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Spinner } from 'react-bootstrap'
-import AddNewPost from './AddNewPost'
-import AddNewTeam from './AddNewTeam'
 
-function JiraBoard() {
-    useEffect(()=>{
-        
-    },[])
+function ViewTeam(props) {
     return (
         <div>
-            <AddNewTeam/>
-            
-  <Spinner animation="border" variant="primary" />
+            <h1>Will come ................{props.location.state.id} </h1>
+            <Spinner animation="border" variant="primary" />
   <Spinner animation="border" variant="secondary" />
   <Spinner animation="border" variant="success" />
   <Spinner animation="border" variant="danger" />
@@ -31,4 +25,4 @@ function JiraBoard() {
     )
 }
 
-export default JiraBoard
+export default ViewTeam

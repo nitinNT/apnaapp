@@ -6,6 +6,7 @@ import Home from './components/Home';
 import AuthProvider from './contexts/AuthContext';
 import ViewPost from './components/ViewPost';
 import { ToastProvider} from 'react-toast-notifications'
+import ViewTeam from './components/ViewTeam';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Home/>
       </Route>
       <Route path="/post" component={ViewPost}/>
+      <Route path="/team" component={ViewTeam}/>
     </BrowserRouter>
     </AuthProvider>
     

@@ -14,7 +14,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword]= useState("");
   const { signin } = useAuth();
-  const { resetPassword , googleSignIn  ,githubSignIn} = useAuth();
+  const { resetPassword , googleSignIn } = useAuth();
 
   const history = useHistory();
   const {addToast} = useToasts();
@@ -23,6 +23,7 @@ function SignIn() {
     try{
       await signin(email,password)
       addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
+      addToast('If you want to use Board Feature please click button present in navbar',{appearance:'info',autoDismiss:true})
       history.push("/home")
     }
     catch{
@@ -43,22 +44,11 @@ function SignIn() {
     try{
       await googleSignIn();
       addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
+      addToast('If you want to use Board Feature please click button present in navbar',{appearance:'info',autoDismiss:true})
       history.push("/home")
     }
     catch{
       addToast('Some Error Please Try Again ',{appearance:'error',autoDismiss:true})
-      
-    }
-    
-  }
-  const handleGithubLogin=async()=>{
-    try{
-      await githubSignIn();
-      addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
-      history.push("/home")
-    }
-    catch{
-      addToast('Some Error Please Try Again',{appearance:'error',autoDismiss:true})
       
     }
     
@@ -71,7 +61,6 @@ function SignIn() {
           <Form.Control type="text" placeholder="Enter Email" 
           value={email}
           onChange={e=> setEmail(e.target.value)}
-          
           />
         </Form.Group>
 
