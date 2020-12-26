@@ -41,7 +41,7 @@ function AddNewTeam() {
   }
   const handleSave=()=>{
       const teamMembers= members.split(" ")  
-      var regex= /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+      var regex= /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
       let flag=1
       teamMembers.map(a=>{
           if (!regex.test(a))
@@ -50,6 +50,7 @@ function AddNewTeam() {
               flag=0
           }
       })
+      teamMembers.push(user.email)
       if (flag===1){
           db.collection('teams').add({
               teamName:name,

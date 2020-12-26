@@ -1,27 +1,30 @@
-import React from 'react'
-import { Spinner } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Container, Tab, Tabs } from 'react-bootstrap';
+import { useAuth } from '../contexts/AuthContext';
+import Tasks from './Tasks';
+import NavBar from './NavBar'
+import Members from './Members';
 
 function ViewTeam(props) {
+    const { user } = useAuth();
+    const teamID= props.location.state.id
+    const teamName= props.location.state.teamName
+    
     return (
         <div>
-            <h1>Will come ................{props.location.state.id} </h1>
-            <Spinner animation="border" variant="primary" />
-  <Spinner animation="border" variant="secondary" />
-  <Spinner animation="border" variant="success" />
-  <Spinner animation="border" variant="danger" />
-  <Spinner animation="border" variant="warning" />
-  <Spinner animation="border" variant="info" />
-  <Spinner animation="border" variant="light" />
-  <Spinner animation="border" variant="dark" />
-  <Spinner animation="grow" variant="primary" />
-  <Spinner animation="grow" variant="secondary" />
-  <Spinner animation="grow" variant="success" />
-  <Spinner animation="grow" variant="danger" />
-  <Spinner animation="grow" variant="warning" />
-  <Spinner animation="grow" variant="info" />
-  <Spinner animation="grow" variant="light" />
-  <Spinner animation="grow" variant="dark" />
+            <NavBar email={user.email}/>
+        <Container>
+            
+            <h2>{teamName}</h2>
+            <Tabs>
+            <Tab eventKey="tasks" title="Tasks">
+                <Tasks key={1} teamid={teamID}/>
+            </Tab>
+            </Tabs>
+            
+        </Container>
         </div>
+        
     )
 }
 

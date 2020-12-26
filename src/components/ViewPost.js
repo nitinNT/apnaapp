@@ -66,7 +66,7 @@ function ViewPost(props) {
        
   }
   const setAnswer =(e,id)=>{
-      console.log(id);
+      // console.log(id);
       if (post.solved==='N'){
           db.collection('posts').doc(postID.toString()).collection('comments').doc(id.toString()).update({
               ans:'Y'

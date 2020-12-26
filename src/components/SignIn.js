@@ -3,7 +3,7 @@ import { Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, useHistory } from "react-router-dom";
-import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons";
+import {GoogleLoginButton } from "react-social-login-buttons";
 import { useToasts } from "react-toast-notifications";
 
 import {useAuth} from '../contexts/AuthContext';
@@ -23,7 +23,6 @@ function SignIn() {
     try{
       await signin(email,password)
       addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
-      addToast('If you want to use Board Feature please click button present in navbar',{appearance:'info',autoDismiss:true})
       history.push("/home")
     }
     catch{
@@ -44,7 +43,7 @@ function SignIn() {
     try{
       await googleSignIn();
       addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
-      addToast('If you want to use Board Feature please click button present in navbar',{appearance:'info',autoDismiss:true})
+      
       history.push("/home")
     }
     catch{
@@ -66,7 +65,7 @@ function SignIn() {
 
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password"
+          <Form.Control type="password" placeholder="Enter Password"
           value={password}
           onChange = {e=> setPassword(e.target.value)}
           />
@@ -83,7 +82,6 @@ function SignIn() {
           <Link to="/register">New User ? </Link>
         </Form.Row>
         <GoogleLoginButton onClick={handleGoogleLogin}/>
-        {/* <GithubLoginButton onClick= {handleGithubLogin} /> */}
       </div>
       
     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CardDeck,  Spinner } from "react-bootstrap";
+import {  CardColumns, Spinner, Container } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import db from "../firebase";
 import TeamCard from "./TeamCard";
@@ -10,39 +10,36 @@ function Teams() {
   const { user } = useAuth();
   useEffect(() => {
     db.collection("teams")
-      .orderBy("timestamp", "desc")
+      .where('members','array-contains',user.email)
       .onSnapshot((snapshot) => {
         setLoading(false);
-        snapshot.docs.map((doc) => {
-          if (doc.data().members.includes(user.email) || doc.data().createdBy===user.email) {
-            setTeams(
-              snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-            );
-          }
-        });
+        setTeams(snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()})))
       });
-  }, []);
+      
+  },[]);
   return (
-    <div>
+    <Container>
       {loading ? (
         <div className="center">
           <Spinner animation="grow" variant="dark" />
         </div>
       ) : (
-        <div>
-          <CardDeck>
+        <Container>
+          <CardColumns>
             {teams.map((a, i) => (
               <TeamCard key= {i} 
               teamId={a.id}
               name={a.teamName} 
               createdBy={a.createdBy} 
               desc={a.teamDesc}
-              numberOfMembers={a.members.length} />
+              numberOfMembers={a.members.length}
+              members={a.members} />
+          
             ))}
-          </CardDeck>
-        </div>
+          </CardColumns>
+        </Container>
       )}
-    </div>
+    </Container>
   );
 }
 
