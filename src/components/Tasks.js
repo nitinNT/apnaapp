@@ -41,14 +41,18 @@ function Tasks({ teamid }) {
     });
     setShow(false);
   };
-  const updateMdata = (id)=>{
-    db.collection("teams").doc(teamid.toString()).collection("milestones").doc(id.toString()).update({
-      status:"closed",
-      completionDate:comdate,
-      comments:comments
-    })
-    setComments("")
-  }
+  const updateMdata = (id) => {
+    db.collection("teams")
+      .doc(teamid.toString())
+      .collection("milestones")
+      .doc(id.toString())
+      .update({
+        status: "closed",
+        completionDate: comdate,
+        comments: comments,
+      });
+    setComments("");
+  };
   const handleShow = () => {
     if (user.emailVerified === false) {
       addToast("Please Verify your Email address", {
@@ -135,7 +139,13 @@ function Tasks({ teamid }) {
                               value={comments}
                               onChange={(e) => setComments(e.target.value)}
                             />
-                            <Button variant="dark" key= {t.id } onClick={() => updateMdata(t.id)}>Update</Button>
+                            <Button
+                              variant="dark"
+                              key={t.id}
+                              onClick={() => updateMdata(t.id)}
+                            >
+                              Update
+                            </Button>
                           </Form.Group>
                         </Card.Body>
                       </Accordion.Collapse>

@@ -13,6 +13,9 @@ function NavBar({email}) {
     logout();
     history.push("/")
   }
+  const profilePage=()=>{
+    history.push("/profile")
+  }
   return (
       <Navbar bg="primary" variant="dark">
       <Nav className="container-fluid">
@@ -21,6 +24,9 @@ function NavBar({email}) {
         </Nav.Item>
         <Nav.Item className="mr-sm-2">
         <NavDropdown title={`Welcome, ${email.split('@')[0]}`} id="collasible-nav-dropdown">
+          <NavDropdown.Item onSelect={profilePage}>
+          My Profile
+          </NavDropdown.Item>
         <NavDropdown.Item onSelect={buttonLogout}>
         Logout
         </NavDropdown.Item>

@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import db, { auth } from "../firebase";
 
 import "../components/Home.css";
-import {  CardDeck, Spinner } from "react-bootstrap";
+import {  CardDeck, Container, Spinner } from "react-bootstrap";
 
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form';
@@ -93,6 +93,7 @@ function ViewPost(props) {
   return (
     <div>
       <NavBar email={user.email} />
+      <Container>
       <Card className="test">
         <Card.Img
           variant="top"
@@ -160,6 +161,9 @@ function ViewPost(props) {
           </CardDeck>
           </div>
         }
+        
+      </Container>
+      
         
     </div>
   );

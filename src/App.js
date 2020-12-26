@@ -8,6 +8,7 @@ import ViewPost from './components/ViewPost';
 import { ToastProvider} from 'react-toast-notifications'
 import ViewTeam from './components/ViewTeam';
 import Snowfall from 'react-snowfall'
+import MyProfile from './components/MyProfile';
 
 
 
@@ -20,9 +21,7 @@ function App() {
       <AuthProvider>
       <BrowserRouter>
       <Snowfall
-  // Changes the snowflake color
   color={variants[Math.floor(Math.random()*variants.length)]}
-  // Controls the number of snowflakes that are created (default 150)
   snowflakeCount={snowflakeC[Math.floor(Math.random()*snowflakeC.length)]}
 />
       <Route exact path="/">
@@ -33,6 +32,9 @@ function App() {
       </Route>
       <Route path="/home">
         <Home/>
+      </Route>
+      <Route path="/profile">
+        <MyProfile/>
       </Route>
       <Route path="/post" component={ViewPost}/>
       <Route path="/team" component={ViewTeam}/>

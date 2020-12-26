@@ -1,0 +1,5 @@
+.parent {
+  margin-top: 2%;
+  display: flex;
+  flex-flow: row nowrap;
+}

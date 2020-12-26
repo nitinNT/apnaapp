@@ -7,6 +7,7 @@ import {GoogleLoginButton } from "react-social-login-buttons";
 import { useToasts } from "react-toast-notifications";
 
 import {useAuth} from '../contexts/AuthContext';
+import db from "../firebase";
 import "./SignIn.css";
 
 
@@ -23,6 +24,7 @@ function SignIn() {
     try{
       await signin(email,password)
       addToast('Successfully Logged',{appearance:'success',autoDismiss:true})
+      db.collection('profile').doc(email).set({})
       history.push("/home")
     }
     catch{
