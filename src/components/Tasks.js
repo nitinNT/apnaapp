@@ -8,8 +8,6 @@ import {
   Table,
   Accordion,
   Card,
-  Row,
-  Col,
 } from "react-bootstrap";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { useToasts } from "react-toast-notifications";

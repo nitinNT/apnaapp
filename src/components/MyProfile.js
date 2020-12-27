@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Image,
-  Button,
-  Form,
-} from "react-bootstrap";
+import { Card, Row, Col, Image, Button, Form } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import db from "../firebase";
 import NavBar from "./NavBar";
@@ -18,12 +10,18 @@ function MyProfile() {
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
   const [status, setStatus] = useState("");
+  const [userDetail, setUserDetail] = useState([]);
 
   useEffect(() => {
-    db.collection("profile").doc("");
+    db.collection("profile")
+      .doc(user.email)
+      .get()
+      .then((snapshot) =>
+        setUserDetail({ id: snapshot.id, ...snapshot.data() })
+      );
   }, []);
   const updateDetails = () => {
-    db.collection("profile").doc(user.email.toString()).set({
+    db.collection("profile").doc(user.email.toString()).update({
       jobposition: position,
       company: company,
       status: status,
@@ -32,6 +30,7 @@ function MyProfile() {
   return (
     <div>
       <NavBar email={user.email} />
+      <h1> WORK IN PROGRESS.............</h1>
       <Row>
         <Col
           sm={4}
@@ -45,7 +44,7 @@ function MyProfile() {
         >
           <Image
             roundedCircle
-            style={{ marginLeft: "11%" }}
+            style={{ marginLeft: "16%" }}
             width={200}
             height={200}
             src={user.photoURL}
@@ -73,27 +72,27 @@ function MyProfile() {
                   )}
                 </Form.Label>
               </Form.Group>
-              <Form.Group controlId="exampleForm">
+              <Form.Group controlId="exampleForm1">
                 <Form.Label>Job Position</Form.Label>
                 <Form.Control
                   type="text"
-                  value={position}
+                  defaultValue={userDetail.jobposition}
                   onChange={(e) => setPosition(e.target.value)}
                 />
               </Form.Group>
-              <Form.Group controlId="exampleForm">
+              <Form.Group controlId="exampleForm2">
                 <Form.Label>Company</Form.Label>
                 <Form.Control
                   type="text"
-                  value={company}
+                  defaultValue={userDetail.company}
                   onChange={(e) => setCompany(e.target.value)}
                 />
               </Form.Group>
-              <Form.Group controlId="exampleForm">
+              <Form.Group controlId="exampleForm3">
                 <Form.Label>Status</Form.Label>
                 <Form.Control
                   type="text"
-                  value={status}
+                  defaultValue={userDetail.status}
                   onChange={(e) => setStatus(e.target.value)}
                 />
               </Form.Group>
