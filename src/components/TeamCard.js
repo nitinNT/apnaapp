@@ -1,41 +1,37 @@
-import React from 'react'
-import { Card, Row } from 'react-bootstrap'
-import { People } from 'react-bootstrap-icons'
-import { useHistory } from 'react-router-dom'
-import '../components/Home.css'
+import React from "react";
+import { Card, Row } from "react-bootstrap";
+import { Eye, People } from "react-bootstrap-icons";
+import { useHistory } from "react-router-dom";
+import "../components/Home.css";
 
-function TeamCard({name,createdBy,desc,numberOfMembers,teamId,members}) {
-    const  history = useHistory();
-    const viewTeam =(e)=>{
-        e.preventDefault()
-        history.push({
-            pathname:"/team",
-            state:{id:teamId,teamName:name}
-        })
-
-    }
-    return (
-        <div>
-            <Row>
-            <Card border="dark" style={{ width: '18rem' }} >
-    <Card.Header onClick={e => viewTeam(e)}>{name}</Card.Header>
-    <Card.Body>
-      <Card.Text>
-        {desc}
-      </Card.Text>
+function TeamCard({ name, createdBy, desc, numberOfMembers, teamId, members }) {
+  const history = useHistory();
+  const viewTeam = (e) => {
+    e.preventDefault();
+    history.push({
+      pathname: "/team",
+      state: { id: teamId, teamName: name },
+    });
+  };
+  return (
+    <div class="card-body">
+      <h4 class="card-title black-text">{name}
+      <Eye style={{float:'right'}} onClick={viewTeam}/>
+      </h4>
       
-      <Card.Footer>
-    <small className="text-muted">admin:{createdBy}</small>
-    <br/><People/><small className="text-muted">{numberOfMembers}</small>
-    </Card.Footer>
+      <p class="card-text black-text">
+        {desc}
+      </p>
+      <p class="card-text black-text">
+        <People/>{numberOfMembers}
+        
+      </p>
+      <p class="card-text black-text">
+        created By {createdBy.split('@')[0]}
+      </p>
 
-    </Card.Body>
-  </Card>
-  </Row>
-
-            
-        </div>
-    )
+    </div>
+  );
 }
 
-export default TeamCard
+export default TeamCard;
