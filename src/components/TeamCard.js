@@ -15,21 +15,17 @@ function TeamCard({ name, createdBy, desc, numberOfMembers, teamId, members }) {
   };
   return (
     <div class="card-body">
-      <h4 class="card-title black-text">{name}
-      <Eye style={{float:'right'}} onClick={viewTeam}/>
+      <h4 class="card-title black-text">
+        {name}
+        <Eye style={{ float: "right" }} onClick={viewTeam} />
       </h4>
-      
-      <p class="card-text black-text">
-        {desc}
-      </p>
-      <p class="card-text black-text">
-        <People/>{numberOfMembers}
-        
-      </p>
-      <p class="card-text black-text">
-        created By {createdBy.split('@')[0]}
-      </p>
 
+      <p class="card-text black-text">{desc}</p>
+      <p class="card-text black-text">
+        <People />
+        {numberOfMembers}
+      </p>
+      <p class="card-text black-text">created By {createdBy.split("@")[0]}</p>
     </div>
   );
 }

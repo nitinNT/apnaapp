@@ -25,15 +25,15 @@ function Teams() {
       {teams.map((a, i) => (
         <div class="column-2 px-1 mb-r">
           <div class="card color-dark">
-                  <TeamCard
-                    key={i}
-                    teamId={a.id}
-                    name={a.teamName}
-                    createdBy={a.createdBy}
-                    desc={a.teamDesc}
-                    numberOfMembers={a.members.length}
-                    members={a.members}
-                  />
+            <TeamCard
+              key={i}
+              teamId={a.id}
+              name={a.teamName}
+              createdBy={a.createdBy}
+              desc={a.teamDesc}
+              numberOfMembers={a.members.length}
+              members={a.members}
+            />
           </div>
         </div>
       ))}
