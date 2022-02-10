@@ -31,9 +31,9 @@ jobs:
     - name: Install Angular CLI
       run: npm install -g @angular/cli > /dev/null    
     - name: Run linters and prettier fix
-      run: npm run all-lints
+      run: ng lint
     - name: Run Test
-      run: npm run test:ci  
+      run: ng test
 
       
       
